@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Team;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -41,6 +42,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $team = Team::create(['name' => $request->name]);
+        $team->users()->attach($user->id);
+        $user->update(['current_team_id' => $team->id]);
 
         event(new Registered($user));
 
