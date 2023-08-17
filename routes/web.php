@@ -22,10 +22,32 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/impressum', function () {
+    return view('impressum');
+})->name('impressum');
+Route::get('/datenschutz', function () {
+    return view('datenschutz');
+})->name('datenschutz');
+Route::get('/nutzungsbedienungen', function () {
+    return view('nutzungsbedienungen');
+})->name('nutzungsbedienungen');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('/project', \App\Http\Controllers\Admin\ProjectsController::class);
+    Route::get('/project/change/{projectID}', [\App\Http\Controllers\Admin\ProjectsController::class, 'changeProject'])->name('projects.change');
+
+    Route::prefix('intern')->name('intern.')->group(function () {
+
+    });
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only('index', 'store')->middleware('can:manage_users');
+    });
 });
+
+Route::get('invitations/{token}', [\App\Http\Controllers\Admin\UserController::class, 'acceptInvitation'])->name('invitations.accept');
 
 require __DIR__.'/auth.php';

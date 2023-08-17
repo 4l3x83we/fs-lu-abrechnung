@@ -17,7 +17,7 @@ return new class extends Migration {
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('team_id')->nullable()->constrained();
+            $table->foreignId('team_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('project_name')->nullable();
             $table->string('project_image')->nullable();
             $table->string('project_map')->nullable();

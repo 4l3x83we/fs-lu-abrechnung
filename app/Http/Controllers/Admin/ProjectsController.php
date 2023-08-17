@@ -4,40 +4,28 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Projects;
+use App\Models\Admin\Team;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
     public function index()
     {
-        return Projects::all();
+        $projects = Projects::all();
+
+        return view('projects.index', compact('projects'));
     }
 
-    public function store(Request $request)
+    public function changeProject($projectID)
     {
-        $request->validate(['team_id' => ['nullable', 'integer'], 'project_name' => ['nullable'], 'project_image' => ['nullable'], 'project_map' => ['nullable'],]);
+        $project = Projects::findOrFail($projectID);
+        auth()->user()->update([
+            'current_project_id' => $projectID,
+        ]);
+        $subdomain = Team::findOrFail($project->team_id)->subdomain;
 
-        return Projects::create($request->validated());
-    }
-
-    public function show(Projects $projects)
-    {
-        return $projects;
-    }
-
-    public function update(Request $request, Projects $projects)
-    {
-        $request->validate(['team_id' => ['nullable', 'integer'], 'project_name' => ['nullable'], 'project_image' => ['nullable'], 'project_map' => ['nullable'],]);
-
-        $projects->update($request->validated());
-
-        return $projects;
-    }
-
-    public function destroy(Projects $projects)
-    {
-        $projects->delete();
-
-        return response()->json();
+        $teamDomain = str_replace('://', '://'.$subdomain.'.', config('app.url'));
+        return redirect($teamDomain.RouteServiceProvider::HOME);
     }
 }

@@ -1,6 +1,9 @@
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
+        @if(!is_null($invitationEmail))
+            <input type="hidden" name="token" value="{{ request('token') }}" />
+        @endif
 
         <!-- Name -->
         <div>
@@ -9,10 +12,19 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
+        @if(is_null($invitationEmail))
+            <!-- Team Name -->
+            <div class="mt-4">
+                <x-input-label for="team" :value="__('Team Name')" />
+                <x-text-input id="team" class="block mt-1 w-full" type="text" name="team" :value="old('team')" required autofocus autocomplete="team" />
+                <x-input-error :messages="$errors->get('team')" class="mt-2" />
+            </div>
+        @endif
+
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="$invitationEmail ?? old('email')" required :disabled="!is_null($invitationEmail)" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
