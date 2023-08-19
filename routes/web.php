@@ -37,11 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('/project', \App\Http\Controllers\Admin\ProjectsController::class);
+    Route::resource('/project', \App\Http\Controllers\Admin\ProjectsController::class)->only('index');
     Route::get('/project/change/{projectID}', [\App\Http\Controllers\Admin\ProjectsController::class, 'changeProject'])->name('projects.change');
 
-    Route::prefix('intern')->name('intern.')->group(function () {
-
+    Route::prefix('project')->name('project.')->middleware('can:project_member')->group(function () {
+        Route::resource('/notes', \App\Http\Controllers\Project\NotesController::class);
     });
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only('index', 'store')->middleware('can:manage_users');

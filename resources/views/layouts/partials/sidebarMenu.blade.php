@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-200 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('auftragsbuch') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
+                    <a href="{{ route('project.notes.index') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-200 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('project.notes.*') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
                         <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                             <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z"/>
                         </svg>
@@ -65,7 +65,6 @@
                     </a>
                 </li>
             </ul>
-
         </div>
     </div>
     <div class="absolute bottom-0 left-0 justify-center hidden w-full p-4 space-x-4 bg-gray-50 lg:flex dark:bg-gray-800" sidebar-bottom-menu>

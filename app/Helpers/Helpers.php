@@ -145,3 +145,12 @@ function getName($image1, $path): string
 
     return $name;
 }
+
+function is_owner()
+{
+    $user = \App\Models\User::find(auth()->id());
+    return $user->teams()
+        ->where('id', auth()->user()->current_team_id)
+        ->wherePivot('is_owner', true)
+        ->exists();
+}

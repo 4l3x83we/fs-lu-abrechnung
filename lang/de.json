@@ -122,5 +122,8 @@
     "The Team Logo has been successfully changed or added": "Das Team Logo wurde erfolgreich geändert oder hinzugefügt",
     "The team logo has been successfully deleted": "Das Team Logo wurde erfolgreich gelöscht",
     "Upload Picture":  "Bild hochladen",
-    "Delete":  "Löschen"
+    "Delete":  "Löschen",
+    "Notes": "Notizen",
+    "Add new Notes": "Neue Notizen hinzufügen",
+    "Note has been saved": "Notiz wurde gespeichert"
 }

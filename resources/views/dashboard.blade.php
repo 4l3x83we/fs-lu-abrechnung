@@ -18,6 +18,7 @@
                             <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
                                 {{ __('Project') }}: {{ auth()->user()->projectName() }}
                             </div>
+                            @can('manage_users')
                             <div>map</div>
                             <div class="flex items-center space-x-4 mb-2">
                                 <div>
@@ -31,6 +32,7 @@
                                     <livewire:admin.project-pictures/>
                                 </div>
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </x-custom.card.head>
