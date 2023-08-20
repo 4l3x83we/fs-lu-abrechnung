@@ -19,7 +19,7 @@ class MapsController extends Controller
     public function store(Request $request)
     {
         $icon = asset('images/icon.dds');
-        $data = json_decode(curl_post('http://api.rest7.com/v1/image_convert.php', 'file=C:\fakepath\icon_iit3.dds&format=png&api_key=47f94ddc8c40d14ae9b561b4084e1e080d9f68be'));
+        $data = json_decode(curl_post('http://api.rest7.com/v1/image_convert.php', 'file=C:\fakepath\icon_iit3.dds&format=png&api_key='.env('REST_API')));
 
         /*if (@$data->success !== 1) {
             exit('Failed');
