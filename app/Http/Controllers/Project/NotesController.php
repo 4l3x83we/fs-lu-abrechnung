@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Projects;
 use App\Models\Project\Notes;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class NotesController extends Controller
 {
@@ -12,34 +13,29 @@ class NotesController extends Controller
     {
         $notes = Notes::where('project_id', auth()->user()->current_project_id)->get();
         $newNotes = false;
+
         return view('projects.notes.index', compact('notes', 'newNotes'));
     }
 
-    public function store(Request $request)
+    public function show(Notes $note)
     {
-        $request->validate(['team_id' => ['nullable', 'integer'], 'project_id' => ['nullable', 'integer'], 'notes' => ['nullable'],]);
+        $note['user'] = User::findOrFail($note->user_id)->name;
+        $note['project'] = Projects::findOrFail($note->project_id)->project_name;
 
-        return Notes::create($request->validated());
+        return view('projects.notes.show', compact('note'));
     }
 
-    public function show(Notes $notes)
+    public function edit(Notes $note)
     {
-        return $notes;
+        return view('projects.notes.edit', compact('note'));
     }
 
-    public function update(Request $request, Notes $notes)
+    public function destroy(Notes $note)
     {
-        $request->validate(['team_id' => ['nullable', 'integer'], 'project_id' => ['nullable', 'integer'], 'notes' => ['nullable'],]);
+        $note->forceDelete();
 
-        $notes->update($request->validated());
+        toastr()->error('Note has been irretrievably deleted', ' ');
 
-        return $notes;
-    }
-
-    public function destroy(Notes $notes)
-    {
-        $notes->delete();
-
-        return response()->json();
+        return to_route('project.notes.index');
     }
 }

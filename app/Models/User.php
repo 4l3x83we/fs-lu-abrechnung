@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Admin\Projects;
 use App\Models\Admin\Team;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -47,7 +48,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function teams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class)->withPivot('is_owner');
     }
@@ -56,6 +57,13 @@ class User extends Authenticatable
     {
         if (auth()->user()->current_project_id) {
             return Projects::findOrFail(auth()->user()->current_project_id)->project_name;
+        }
+    }
+
+    public function projectMapID()
+    {
+        if (auth()->user()->current_project_id) {
+            return Projects::findOrFail(auth()->user()->current_project_id)->project_map;
         }
     }
 

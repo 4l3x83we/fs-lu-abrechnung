@@ -24,13 +24,13 @@ class UserController extends Controller
     {
         $invitations = Invitation::where('team_id', auth()->user()->current_team_id)->latest()->get();
 
-        return view('admin.users.index', compact('invitations'));
+        return view('settings.admin.users.index', compact('invitations'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'unique:invitations,email']
+            'email' => ['required', 'unique:invitations,email'],
         ]);
 
         $invitation = Invitation::create([
@@ -43,7 +43,7 @@ class UserController extends Controller
         Notification::route('mail', $request->email)
             ->notify(new SendInvitationNotification($invitation));
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('settings.admin.users.index');
     }
 
     public function acceptInvitation($token)
@@ -58,6 +58,7 @@ class UserController extends Controller
             auth()->user()->teams()->attach($invitation->team_id);
             auth()->user()->update(['current_team_id' => $invitation->team_id]);
             $teamDomain = str_replace('://', '://'.$invitation->teams->subdomain.'.', config('app.url'));
+
             return redirect($teamDomain.RouteServiceProvider::HOME);
         } else {
             return redirect()->route('register', ['token' => $invitation->token]);

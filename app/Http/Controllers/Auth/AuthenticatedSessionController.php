@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Admin\Team;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,7 +30,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $team = Team::findOrFail(auth()->user()->current_team_id);
+        $teamDomain = str_replace('://', '://'.$team->subdomain.'.', config('app.url'));
+
+        return redirect()->intended($teamDomain.RouteServiceProvider::HOME);
+        //        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

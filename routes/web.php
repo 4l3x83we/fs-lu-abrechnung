@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ProjectsController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Maps\MapsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Project\NotesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,17 +41,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('/project', \App\Http\Controllers\Admin\ProjectsController::class)->only('index');
-    Route::get('/project/change/{projectID}', [\App\Http\Controllers\Admin\ProjectsController::class, 'changeProject'])->name('projects.change');
+    Route::resource('/project', ProjectsController::class)->only('index');
+    Route::get('/project/change/{projectID}', [ProjectsController::class, 'changeProject'])->name('projects.change');
 
     Route::prefix('project')->name('project.')->middleware('can:project_member')->group(function () {
-        Route::resource('/notes', \App\Http\Controllers\Project\NotesController::class);
+        Route::resource('/notes', NotesController::class);
     });
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only('index', 'store')->middleware('can:manage_users');
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::prefix('admin')->name('admin.')->middleware('can:manage_users')->group(function () {
+            Route::resource('users', UserController::class)->only('index', 'store');
+            Route::resource('maps', MapsController::class);
+        });
     });
 });
 
-Route::get('invitations/{token}', [\App\Http\Controllers\Admin\UserController::class, 'acceptInvitation'])->name('invitations.accept');
+Route::get('invitations/{token}', [UserController::class, 'acceptInvitation'])->name('invitations.accept');
 
 require __DIR__.'/auth.php';

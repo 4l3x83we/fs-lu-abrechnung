@@ -8,7 +8,7 @@
  * Time: 10:10
  */
 
-
+use App\Models\User;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManagerStatic;
 
@@ -40,6 +40,7 @@ function initialsAll($query)
     $first = $name[0];
     if (count($name) - 1 > 0) {
         $last = $name[count($name) - 1];
+
         return mb_substr($first[0], 0, 1).''.mb_substr($last[0], 0, 1);
     }
 
@@ -148,9 +149,24 @@ function getName($image1, $path): string
 
 function is_owner()
 {
-    $user = \App\Models\User::find(auth()->id());
+    $user = User::find(auth()->id());
+
     return $user->teams()
         ->where('id', auth()->user()->current_team_id)
         ->wherePivot('is_owner', true)
         ->exists();
+}
+
+function curl_post($url, $post): bool|string
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+    $data = curl_exec($ch);
+
+    curl_close($ch);
+
+    return $data;
 }

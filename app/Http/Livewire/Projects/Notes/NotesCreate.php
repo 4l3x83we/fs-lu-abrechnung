@@ -55,7 +55,7 @@ class NotesCreate extends Component
         ]);
 
         $this->newNotes = false;
-        toastr()->success('Note has been saved');
+        toastr()->success('Note has been saved', 'note created');
 
         return redirect(request()->header('Referer'));
     }
