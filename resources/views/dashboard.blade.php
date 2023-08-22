@@ -19,7 +19,11 @@
                                 {{ __('Project') }}: {{ auth()->user()->projectName() }}
                             </div>
                             @can('manage_users')
-                            <div>map</div>
+                            <div class="flex items-center space-x-4 mb-2">
+                                <a href="{{ route('settings.admin.maps.index') }}" class="text-sm">
+                                    <span class="mr-1">{{ __('Map') }}:</span>{{ auth()->user()->mapAuswahl()['maps'] }}
+                                </a>
+                            </div>
                             <div class="flex items-center space-x-4 mb-2">
                                 <div>
                                     <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">{{ __('Team Logo') }}:</div>

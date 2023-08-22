@@ -20,18 +20,14 @@ return new class extends Migration
             $table->id();
             $table->string('md_author')->nullable();
             $table->string('md_version')->nullable();
-            $table->string('md_icon')->nullable();
             $table->string('md_title_de')->nullable();
             $table->string('md_title_en')->nullable();
-            $table->json('md_title')->nullable();
             $table->json('md_desc')->nullable();
-            $table->string('md_preview')->nullable();
             $table->json('md_fillTypes')->nullable();
             $table->json('md_fruitTypes')->nullable();
             $table->json('md_farmlands')->nullable();
             $table->json('md_sprayTypes')->nullable();
             $table->json('md_fields')->nullable();
-            $table->json('md_ModDesc')->nullable();
             $table->boolean('md_sprayTypes_available')->nullable();
             $table->bigInteger('team_id')->nullable();
             $table->bigInteger('user_id')->nullable();

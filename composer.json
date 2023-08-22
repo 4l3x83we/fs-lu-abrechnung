@@ -15,7 +15,8 @@
         "livewire/livewire": "^2.12",
         "silviolleite/laravelpwa": "^2.0",
         "yoeunes/toastr": "^2.3",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

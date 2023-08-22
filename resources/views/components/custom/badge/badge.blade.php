@@ -1,6 +1,3 @@
-<div>
-
-</div>
 @props(['color' => 'green', 'text' => ''])
 
 @php

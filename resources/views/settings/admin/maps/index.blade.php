@@ -35,13 +35,14 @@
             </x-custom.table.responsive.thead>
             <x-custom.table.responsive.tbody>
                 @foreach($maps as $map)
+                    @if(empty($map['team_id']) or $map['team_id'] === auth()->user()->current_team_id)
                     <x-custom.table.responsive.tr>
                         <x-custom.table.responsive.td class="!py-2 !px-4 {{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}" :text="$map['id']"/>
                         <x-custom.table.responsive.td class="{{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}" :text="$map['md_author']"/>
                         <x-custom.table.responsive.td class="{{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}">
                             <x-custom.badge.badge color="purple">{{ $map['md_version'] }}</x-custom.badge.badge>
                         </x-custom.table.responsive.td>
-                        <x-custom.table.responsive.td class="{{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}" :text="$map['md_title'][$lang] . ' / ('.$map['md_title']['en'].')'"/>
+                        <x-custom.table.responsive.td class="{{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}" :text="$map['md_title_de'] . ' / ('.$map['md_title_en'].')'"/>
                         <x-custom.table.responsive.td class="{{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}" :text="$map['md_desc'][$lang]"/>
                         <x-custom.table.responsive.td class="{{ auth()->user()->projectMapID() == $map['id'] ? 'font-bold text-green-800 dark:text-green-600' : 'font-medium text-gray-900 dark:text-white' }}">
                             <x-custom.badge.badge>{{ $map['md_fields'] }}</x-custom.badge.badge>
@@ -60,11 +61,10 @@
                             </div>
                         </x-custom.table.responsive.td>
                     </x-custom.table.responsive.tr>
+                    @endif
                 @endforeach
             </x-custom.table.responsive.tbody>
         </x-custom.table.responsive.table>
-
-
 
         <x-custom.table.responsive.table-grid>
             @foreach($maps as $map)
@@ -86,7 +86,7 @@
                         </li>
                         <li class="flex space-x-3 items-center">
                             <div class="flex-shrink-0">Map:</div>
-                            <div class="text-sm font-normal leading-tight text-gray-500 dark:text-gray-400">{{ $map['md_title'][$lang] . ' / ('.$map['md_title']['en'].')' }}</div>
+                            <div class="text-sm font-normal leading-tight text-gray-500 dark:text-gray-400">{{ $map['md_title_de'] . ' / ('.$map['md_title_en'].')' }}</div>
                         </li>
                         <li class="flex space-x-3 items-center">
                             <div class="flex-shrink-0">Beschreibung:</div>

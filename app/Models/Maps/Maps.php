@@ -12,12 +12,9 @@ class Maps extends Model
     protected $fillable = [
         'md_author',
         'md_version',
-        'md_icon',
         'md_title_de',
         'md_title_en',
-        'md_title',
         'md_desc',
-        'md_preview',
         'md_fillTypes',
         'md_fruitTypes',
         'md_farmlands',
@@ -27,7 +24,6 @@ class Maps extends Model
         'team_id',
         'user_id',
         'md_public_private',
-        'md_ModDesc',
     ];
 
     protected $casts = [
@@ -38,6 +34,10 @@ class Maps extends Model
         'md_farmlands' => 'array',
         'md_sprayTypes' => 'array',
         'md_fields' => 'array',
-        'md_ModDesc' => 'array',
     ];
+
+    public function checkTeam()
+    {
+
+    }
 }

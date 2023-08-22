@@ -4,58 +4,32 @@ namespace App\Http\Controllers\Maps;
 
 use App\Http\Controllers\Controller;
 use App\Models\Maps\Maps;
-use Illuminate\Http\Request;
 
 class MapsController extends Controller
 {
     public function index()
     {
         $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-        $maps = Maps::all();
+        $maps = [];
+        foreach (Maps::get() as $map) {
+            $fields = json_decode($map['md_fields'], true, 512, JSON_THROW_ON_ERROR);
+            $maps[] = [
+                'id' => $map['id'],
+                'md_author' => $map['md_author'],
+                'md_version' => $map['md_version'],
+                'md_title_de' => $map['md_title_de'],
+                'md_title_en' => $map['md_title_en'],
+                'md_desc' => json_decode($map['md_desc'], true, 512, JSON_THROW_ON_ERROR),
+                'md_fields' => count($fields),
+                'team_id' => $map['team_id'],
+            ];
+        }
 
         return view('settings.admin.maps.index', compact('maps', 'lang'));
-    }
-
-    public function store(Request $request)
-    {
-        $icon = asset('images/icon.dds');
-        $data = json_decode(curl_post('http://api.rest7.com/v1/image_convert.php', 'file=C:\fakepath\icon_iit3.dds&format=png&api_key='.env('REST_API')));
-
-        /*if (@$data->success !== 1) {
-            exit('Failed');
-        }*/
-        //        $image = file_get_contents($data->file);
-
-        dd($request->md_icon, $icon);
-
-        toastr()->success('Map erfolgreich hinzugefügt');
-
-        return redirect()->route('settings.admin.maps.index');
     }
 
     public function create()
     {
         return view('settings.admin.maps.create');
-    }
-
-    public function show(Maps $maps)
-    {
-        return $maps;
-    }
-
-    public function update(Request $request, Maps $maps)
-    {
-        $request->validate(['md_author' => ['nullable'], 'md_version' => ['nullable'], 'md_icon' => ['nullable'], 'md_title' => ['nullable'], 'md_desc' => ['nullable'], 'md_preview' => ['nullable'], 'md_fillTypes' => ['nullable'], 'md_fruitTypes' => ['nullable'], 'md_farmlands' => ['nullable'], 'md_sprayTypes' => ['nullable'], 'md_fields' => ['nullable'], 'md_sprayTypes_available' => ['nullable'], 'team_id' => ['nullable', 'integer'], 'user_id' => ['nullable', 'integer'], 'md_public_private' => ['nullable'], 'md_ModDesc' => ['nullable']]);
-
-        $maps->update($request->validated());
-
-        return $maps;
-    }
-
-    public function destroy(Maps $maps)
-    {
-        $maps->delete();
-
-        return response()->json();
     }
 }

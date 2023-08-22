@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\ProjectsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auftrag\AuftragsberechnungController;
 use App\Http\Controllers\Maps\MapsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Project\MarktpreiseController;
 use App\Http\Controllers\Project\NotesController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,11 +48,17 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('project')->name('project.')->middleware('can:project_member')->group(function () {
         Route::resource('/notes', NotesController::class);
+        Route::prefix('auftragsberechnung')->name('auftragsberechnung.')->group(function () {
+            Route::get('/', [AuftragsberechnungController::class, 'auftrag'])->name('auftrag');
+        });
+        Route::prefix('marktpreise')->name('marktpreise.')->group(function () {
+            Route::get('/', [MarktpreiseController::class, 'feldfruechte'])->name('feldfruechte');
+        });
     });
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::prefix('admin')->name('admin.')->middleware('can:manage_users')->group(function () {
             Route::resource('users', UserController::class)->only('index', 'store');
-            Route::resource('maps', MapsController::class);
+            Route::resource('maps', MapsController::class)->only('index', 'create');
         });
     });
 });

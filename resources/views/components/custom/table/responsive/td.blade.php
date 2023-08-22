@@ -1,3 +1,3 @@
-<td {{ $attributes->merge(['class' => 'p-2 text-base whitespace-nowrap'])  }}>
+<td {{ $attributes->merge(['class' => 'p-2 text-sm whitespace-nowrap'])  }}>
     {{ $text ?? $slot }}
 </td>

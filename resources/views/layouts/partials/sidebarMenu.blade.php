@@ -9,7 +9,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-200 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('auftrag') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
+                    <a href="{{ route('project.auftragsberechnung.auftrag') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-200 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('project/auftragsberechnung*') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 384 512">
                             <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM96 64H288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32zm32 160a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zM96 352a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM64 416c0-17.7 14.3-32 32-32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM192 256a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm32 64a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zm64-64a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm32 64a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zM288 448a32 32 0 1 1 0-64 32 32 0 1 1 0 64z"/>
                         </svg>
@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-200 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('markt') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
+                    <a href="{{ route('project.marktpreise.feldfruechte') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-200 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('project/marktpreise*') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
                         <svg class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 18">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 7h9.231M1 11h9.231M13 2.086A5.95 5.95 0 0 0 9.615 1C5.877 1 2.846 4.582 2.846 9s3.031 8 6.769 8A5.94 5.94 0 0 0 13 15.916"/>
                         </svg>
@@ -65,14 +65,29 @@
                     </a>
                 </li>
             </ul>
+            @if(auth()->user()->projectMapID())
+                <div class="pt-2 space-y-2">
+                    @can('manage_users')
+                        <a href="{{ route('settings.admin.maps.index') }}" class="flex items-center px-2 text-sm text-gray-900 transition duration-75 rounded-lg group dark:text-gray-200">{{ __('Your selected map') }}</a>
+                    @else
+                        <div class="flex items-center px-2 text-sm text-gray-900 transition duration-75 rounded-lg group dark:text-gray-200">{{ __('Your selected map') }}</div>
+                    @endcan
+                    <div class="flex items-center px-2 text-sm text-gray-900 transition duration-75 rounded-lg group dark:text-gray-200">
+                        <span class="font-bold mr-1">{{ __('Map') }}:</span> {{ auth()->user()->mapAuswahl()['maps'] }}
+                    </div>
+                    <div class="flex items-center px-2 text-sm text-gray-900 transition duration-75 rounded-lg group dark:text-gray-200">
+                        <span class="font-bold mr-1">{{ __('Fields') }}:</span> <x-custom.badge.badge>{{ auth()->user()->mapAuswahl()['fields'] }}</x-custom.badge.badge>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="absolute bottom-0 left-0 justify-center hidden w-full p-4 space-x-4 bg-gray-50 lg:flex dark:bg-gray-800" sidebar-bottom-menu>
-        <a href="" class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-white">
+        {{--<a href="" class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-white">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
             </svg>
-        </a>
+        </a>--}}
         @can('manage_users')
             <a href="{{ route('settings.admin.users.index') }}" data-tooltip-target="tooltip-settings" class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-white">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>

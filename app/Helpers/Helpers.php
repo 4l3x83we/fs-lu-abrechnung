@@ -157,16 +157,102 @@ function is_owner()
         ->exists();
 }
 
-function curl_post($url, $post): bool|string
+// convert values while reading xml files
+function get_bool($value)
 {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-    $data = curl_exec($ch);
+    $value = strval($value);
+    switch (strtolower($value)) {
+        case 'true':
+            return true;
+        case 'false':
+            return false;
+        case 'on':
+            return true;
+        default:
+            if (is_numeric($value)) {
+                return $value + 0;
+            }
+    }
 
-    curl_close($ch);
+    return $value;
+}
 
-    return $data;
+function lang()
+{
+    return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+}
+
+function numberFormat($value, $decimals = 2)
+{
+    return number_format($value, $decimals, ',', '.').' €';
+}
+
+function months()
+{
+    $short = [
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+        'Jan',
+        'Feb',
+    ];
+
+    $long = [
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+        'January',
+        'February',
+    ];
+
+    return [
+        'short' => $short,
+        'long' => $long,
+    ];
+}
+
+function marktPreis($pricePerLiter, $inflation, $modi)
+{
+    $perLiter = $pricePerLiter * $inflation;
+    if ($modi === 'Leicht') {
+        $aufschlag = ((200 / 100) * $perLiter);
+        $preis = $perLiter + $aufschlag;
+    } elseif ($modi === 'Mittel') {
+        $aufschlag = ((80 / 100) * $perLiter);
+        $preis = $perLiter + $aufschlag;
+    } else {
+        $preis = $perLiter;
+    }
+
+    return $preis;
+}
+
+function maxMarktPreis($pricePerLiter, $inflation, $modi)
+{
+    $perLiter = $pricePerLiter * $inflation;
+    if ($modi === 'Leicht') {
+        $aufschlag = ((200 / 100) * $perLiter);
+        $preis = $perLiter + $aufschlag;
+    } elseif ($modi === 'Mittel') {
+        $aufschlag = ((80 / 100) * $perLiter);
+        $preis = $perLiter + $aufschlag;
+    } else {
+        $preis = $perLiter;
+    }
+
+    return $preis;
 }
