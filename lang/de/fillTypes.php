@@ -86,4 +86,8 @@ return [
     'NONFOODPALLET1' => 'NonFood palette 2',
     'NONFOODPALLET2' => 'Brot palette',
     'OGPALLET' => 'O+G palette',
+    'LIQUIDFERTILIZER' => 'Flüssigdünger',
+    'LIME' => 'Kalk',
+    'HERBICIDE' => 'Pflanzenschutzmittel',
+    'FERTILIZER' => 'Dünger',
 ];

@@ -27,20 +27,20 @@
                                     </tr>
                                 </x-custom.table.responsive.thead>
                                 <x-custom.table.responsive.tbody>
-                                    {{--@foreach($feldfruechte as $fruit => $fillType)
+                                    @foreach($duenger as $fruit => $fillType)
                                         <x-custom.table.responsive.tr>
                                             <x-custom.table.responsive.td text="{{ __($fillType['name']) }}"/>
                                             @foreach($fillType['factor'] as $index => $factor)
-                                                <x-custom.table.responsive.td class="text-center border-x dark:border-gray-700 {{ $factor === $fillType['min'] ? 'bg-red-700 text-white' :
+                                                <x-custom.table.responsive.td class="text-center border-x dark:border-gray-700 {{ $factor == $fillType['min'] ? '' : ($factor === $fillType['min'] ? 'bg-red-700 text-white' :
                                                 ($factor === $fillType['max'] ? 'bg-green-700 text-white' :
-                                                ($factor === $fillType['normal'] ? 'bg-yellow-700 text-white' : ''))
+                                                ($factor === $fillType['normal'] ? 'bg-yellow-700 text-white' : '')))
                                                 }}" text="{{ numberFormat($factor) }}"/>
                                             @endforeach
                                             <x-custom.table.responsive.td class="text-center" text="{{ numberFormat($fillType['perLiter']) }}"/>
                                             <x-custom.table.responsive.td class="text-center" text="{{ numberFormat($fillType['normal']) }}"/>
                                             <x-custom.table.responsive.td class="text-center" text="{{ numberFormat($fillType['max']) }}"/>
                                         </x-custom.table.responsive.tr>
-                                    @endforeach--}}
+                                    @endforeach
                                 </x-custom.table.responsive.tbody>
                             </x-custom.table.responsive.table>
                         </div>
