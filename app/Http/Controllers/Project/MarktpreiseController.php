@@ -18,4 +18,9 @@ class MarktpreiseController extends Controller
     {
         return view('projects.marktpreise.feldfruechte');
     }
+
+    public function duenger()
+    {
+        return view('projects.marktpreise.duenger');
+    }
 }

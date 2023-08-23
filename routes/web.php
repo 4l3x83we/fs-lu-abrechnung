@@ -52,7 +52,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [AuftragsberechnungController::class, 'auftrag'])->name('auftrag');
         });
         Route::prefix('marktpreise')->name('marktpreise.')->group(function () {
-            Route::get('/', [MarktpreiseController::class, 'feldfruechte'])->name('feldfruechte');
+            Route::get('/feldfruechte', [MarktpreiseController::class, 'feldfruechte'])->name('feldfruechte');
+            Route::get('/duenger', [MarktpreiseController::class, 'duenger'])->name('duenger');
         });
     });
     Route::prefix('settings')->name('settings.')->group(function () {

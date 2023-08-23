@@ -3,6 +3,6 @@
         <div class="px-4">
             @include('projects.layouts.menuMarktpreise')
         </div>
-        <livewire:marktpreise.feldfruechte/>
+        <livewire:marktpreise.duenger/>
     </x-custom.main.head>
 </x-app-layout>
