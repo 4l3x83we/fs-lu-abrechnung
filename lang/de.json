@@ -167,5 +167,20 @@
     "Price": "Preis",
     "Liter": "Liter",
     "Regular price": "Normal Preis",
-    "Maximum price": "Maximalpreis"
+    "Maximum price": "Maximalpreis",
+    "Own field size": "Eigene Feldgröße",
+    "Order":  "Auftrag",
+    "cost per order": "Kosten pro Auftrag",
+    "hectare": "Hektar",
+    "Field Number": " Feldnummer",
+    "spread rate": "Ausbringmenge",
+    "Cost": " Kosten",
+    "Choose a month": "Wähle ein Monat",
+    "Cost Overview": "Kostenübersicht",
+    "Subtotal": "Zwischensumme",
+    "Total": "Summe",
+    "plus": "plus",
+    "Machinery":  "Maschinen",
+    "Fertilizer": "Dünger",
+    "Seed":  "Saatgut"
 }

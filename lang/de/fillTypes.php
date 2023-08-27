@@ -90,4 +90,10 @@ return [
     'LIME' => 'Kalk',
     'HERBICIDE' => 'Pflanzenschutzmittel',
     'FERTILIZER' => 'Dünger',
+    'OILSEEDRADISH' => 'Ölrettich',
+    'MEADOW' => 'Grass',
+    'MEADOWUS' => 'Elmcreekwiese',
+    'MEADOWFR' => 'Beyleronwiese',
+    'MEADOWALPS' => 'Alpinwiese',
+    'POPLAR' => 'Pappeln',
 ];
